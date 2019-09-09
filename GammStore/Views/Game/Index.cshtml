@@ -1,0 +1,36 @@
+﻿@model IEnumerable<GammStore.Models.Game>
+
+@{
+    ViewData["Title"] = "Игры";
+    var games = Model;
+    var i = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Цена</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in games)
+        {
+            <tr>
+                <th scope="row">@(++i)</th>
+                <td>@game.Name</td>
+                <td>@game.Price</td>
+                <td>
+                    <a href="javascript:void(0);" role="button" 
+                       data-game-id="@game.Id" class="btn btn-outline-secondary buyGameBtn"
+                       tabindex="0" data-toggle="popover" data-trigger="focus" 
+                       title="" data-content="">Купить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

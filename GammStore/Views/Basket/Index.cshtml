@@ -1,0 +1,60 @@
+﻿@model IEnumerable<GammStore.Models.Basket>
+
+@{
+    ViewData["Title"] = "Корзина";
+    var baskets = Model;
+    var i = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+<div id="basketsContent">
+    @if (baskets.Count() != 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var basket in baskets)
+                {
+                    <tr>
+                        <th scope="row">@(++i)</th>
+                        <td>@basket.Game.Name</td>
+                        <td class="basketPrice">@basket.Game.Price</td>
+                        <td>
+                            <input class="form-control basketQuantityInput"
+                                   type="number" value="@basket.Quantity"
+                                   data-game-id="@basket.GameId" />
+                        </td>
+                        <td class="basketSum">@(basket.Game.Price * basket.Quantity)</td>
+                        <td>
+                            <a class="btn btn-outline-secondary deleteGameBtn" href="javascript:void(0);"
+                               role="button" data-game-id="@basket.GameId">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-9">
+                <h2>Сумма: <span id="basketTotalSum">@ViewData["TotalSum"]</span></h2>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-secondary" href="javascript:void(0);"
+                   role="button" id="pushOrderBtn">Оформить заказ</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Корзина пуста.</p>
+    }
+</div>
