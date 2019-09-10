@@ -1,0 +1,54 @@
+﻿@model IEnumerable<GammStore.Models.OrderHeader>
+
+@{
+    ViewData["Title"] = "Заказы";
+    var orders = Model;
+    var i = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (orders.Count() != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Статус</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <th scope="row">@(++i)</th>
+                    <td>@order.DateTime.ToString("dd.MM.yyyy H:mm")</td>
+                    <td>@GetDescription(order.Status)</td>
+                    <td>
+                        <a class="btn btn-outline-secondary" role="button"
+                           asp-area="" asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id">Подробнее</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Список заказов пуст.</p>
+}
+
+@functions {
+    public string GetDescription(OrderStatus status)
+    {
+        switch (status)
+        {
+            case OrderStatus.New:
+                return "Новый";
+            default:
+                return "";
+        }
+    }
+}

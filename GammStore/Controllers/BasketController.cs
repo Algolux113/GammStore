@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GammStore.Models;
 using GammStore.ViewModels.Basket;
+using System;
 
 namespace GammStore.Controllers
 {
@@ -87,7 +88,7 @@ namespace GammStore.Controllers
                 .AsNoTracking()
                 .Where(x => x.AccountId == account.Id)
                 .SumAsync(x => x.Quantity);
-            
+
             return basketResultViewModel;
         }
 
@@ -174,16 +175,54 @@ namespace GammStore.Controllers
         [Authorize]
         public async Task<BasketResultViewModel> PushOrder()
         {
-            var account = await db.Accounts
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+            var basketResultViewModel = new BasketResultViewModel();
 
-            var baskets = await db.Baskets
-                .Where(x => x.AccountId == account.Id)
-                .AsNoTracking()
-                .ToListAsync();
+            try
+            {
+                var account = await db.Accounts
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
-            return new BasketResultViewModel() { StatusCode = 200 };
+                var baskets = await db.Baskets
+                    .Where(x => x.AccountId == account.Id)
+                    .ToListAsync();
+
+                if (baskets.Count() != 0)
+                {
+                    var orderHeader = new OrderHeader()
+                    {
+                        AccountId = account.Id,
+                        DateTime = DateTimeOffset.Now,
+                        Status = OrderStatus.New
+                    };
+
+                    await db.OrderHeaders.AddAsync(orderHeader);
+                    await db.SaveChangesAsync();
+
+                    foreach (var basket in baskets)
+                    {
+                        await db.OrderBodies.AddAsync(new OrderBody()
+                        {
+                            GameId = basket.GameId,
+                            Quantity = basket.Quantity,
+                            OrderHeaderId = orderHeader.Id
+                        });
+
+                        db.Baskets.Remove(basket);
+                        await db.SaveChangesAsync();
+
+                        basketResultViewModel.StatusCode = 200;
+                        basketResultViewModel.BasketCnt = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                basketResultViewModel.StatusCode = 500;
+                basketResultViewModel.Message = ex.Message;
+            }
+
+            return basketResultViewModel;
         }
     }
 }

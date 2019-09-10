@@ -1,0 +1,35 @@
+﻿@model IEnumerable<GammStore.Models.OrderBody>
+
+@{
+    ViewData["Title"] = "Заказ";
+    var orders = Model;
+    var i = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Сумма</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in orders)
+        {
+            <tr>
+                <th scope="row">@(++i)</th>
+                <td>@order.Game.Name</td>
+                <td>@order.Game.Price</td>
+                <td>@order.Quantity</td>
+                <td>@(order.Game.Price * order.Quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Сумма: @ViewData["TotalSum"]</h2>

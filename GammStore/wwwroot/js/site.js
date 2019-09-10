@@ -6,8 +6,8 @@
     Array.prototype.forEach.call(buyGameBtns, function (buyGameBtn) {
         buyGameBtn.addEventListener("click", function () {
             var gameId = buyGameBtn.dataset.gameId;
-
             var xhr = new XMLHttpRequest();
+
             xhr.open("GET", "Basket/AddBasket?gameId=" + gameId, true);
 
             xhr.onreadystatechange = function () {
@@ -21,7 +21,7 @@
                 if (data.statusCode === 200) {
                     document.getElementById("basketCnt").innerHTML = data.basketCnt;
                 }
-                
+
                 buyGameBtn.dataset.content = message;
                 $(buyGameBtn).popover('show');
             };
@@ -35,8 +35,8 @@
     Array.prototype.forEach.call(deleteGameBtns, function (deleteGameBtn) {
         deleteGameBtn.addEventListener("click", function () {
             var gameId = deleteGameBtn.dataset.gameId;
-
             var xhr = new XMLHttpRequest();
+
             xhr.open("GET", "Basket/DeleteBasket?gameId=" + gameId, true);
 
             xhr.onreadystatechange = function () {
@@ -53,6 +53,7 @@
                         document.getElementById("basketTotalSum").innerHTML = data.basketTotalSum
                             .toFixed(2)
                             .toString().replace('.', ',');
+
                         deleteGameBtn.closest("tr").remove();
                     }
                     else {
@@ -81,6 +82,7 @@
             };
 
             var xhr = new XMLHttpRequest();
+
             xhr.open("POST", "Basket/ChangeBasket", true);
             xhr.setRequestHeader("Content-type", "application/json");
 
@@ -100,7 +102,7 @@
                         .closest("tr")
                         .getElementsByClassName("basketSum")[0]
                         .innerHTML = data.basketSum.toFixed(2)
-                        .toString().replace('.', ',');
+                            .toString().replace('.', ',');
                 }
             };
 
@@ -113,6 +115,7 @@
     if (pushOrderBtn !== null) {
         pushOrderBtn.addEventListener("click", function () {
             var xhr = new XMLHttpRequest();
+
             xhr.open("GET", "Basket/PushOrder", true);
 
             xhr.onreadystatechange = function () {
@@ -123,7 +126,14 @@
                 var data = JSON.parse(this.response);
 
                 if (data.statusCode === 200) {
-                    alert("Test!");
+                    document.getElementById("basketCnt").innerHTML = data.basketCnt;
+                    document.getElementById("basketsContent").innerHTML =
+                        "<p>Заказ успешно оформлен.</p>" +
+                        "<p><a class='btn btn-secondary' href='/Order/Index'" +
+                        "role='button'>Заказы</a></p>";
+                }
+                else if (data.statusCode === 500) {
+                    console.log(data.message);
                 }
             };
 
