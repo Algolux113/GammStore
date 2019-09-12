@@ -48,8 +48,11 @@
                 <h2>Сумма: <span id="basketTotalSum">@ViewData["TotalSum"]</span></h2>
             </div>
             <div class="col-md-3">
-                <a class="btn btn-secondary" href="javascript:void(0);"
-                   role="button" id="pushOrderBtn">Оформить заказ</a>
+                @*<a class="btn btn-secondary" href="javascript:void(0);"
+                    role="button" id="pushOrderBtn">Оформить заказ</a>*@
+                <a class="btn btn-secondary" role="button" asp-area="" asp-controller="Order" asp-action="Create">
+                    Оформить заказ
+                </a>
             </div>
         </div>
     }

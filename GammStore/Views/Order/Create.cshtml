@@ -1,0 +1,52 @@
+﻿@model GammStore.ViewModels.Order.CreateViewModel
+
+@{
+    ViewData["Title"] = "Оформить заказ";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create" asp-controller="Order">
+    <div>
+        <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="Adress">Адрес</label>
+            <input asp-for="Adress" />
+            <span class="text-danger" asp-validation-for="Adress" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Phone">Телефон</label>
+            <input asp-for="Phone" />
+            <span class="text-danger" asp-validation-for="Phone" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CardNumber">Номер карты</label>
+            <input asp-for="CardNumber" />
+            <span class="text-danger" asp-validation-for="CardNumber" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CardMoth">Месяц</label>
+            <input asp-for="CardMoth" />
+            <span class="text-danger" asp-validation-for="CardMoth" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CardYear">Год</label>
+            <input asp-for="CardYear" />
+            <span class="text-danger" asp-validation-for="CardYear" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CardCIV">CIV</label>
+            <input asp-for="CardCIV" />
+            <span class="text-danger" asp-validation-for="CardCIV" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Оформить заказ" class="btn btn-secondary" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
