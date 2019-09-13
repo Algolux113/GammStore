@@ -34,8 +34,8 @@ namespace GammStore.Controllers
                 if (ModelState.IsValid)
                 {
                     var account = await db.Accounts
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
                     var baskets = await db.Baskets
                         .Where(x => x.AccountId == account.Id)

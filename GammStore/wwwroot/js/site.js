@@ -109,35 +109,4 @@
             xhr.send(JSON.stringify(basket));
         }, false);
     });
-
-    //var pushOrderBtn = document.getElementById("pushOrderBtn");
-
-    //if (pushOrderBtn !== null) {
-    //    pushOrderBtn.addEventListener("click", function () {
-    //        var xhr = new XMLHttpRequest();
-
-    //        xhr.open("GET", "Basket/PushOrder", true);
-
-    //        xhr.onreadystatechange = function () {
-    //            if (xhr.readyState !== 4) {
-    //                return;
-    //            }
-
-    //            var data = JSON.parse(this.response);
-
-    //            if (data.statusCode === 200) {
-    //                document.getElementById("basketCnt").innerHTML = data.basketCnt;
-    //                document.getElementById("basketsContent").innerHTML =
-    //                    "<p>Заказ успешно оформлен.</p>" +
-    //                    "<p><a class='btn btn-secondary' href='/Order/Index'" +
-    //                    "role='button'>Заказы</a></p>";
-    //            }
-    //            else if (data.statusCode === 500) {
-    //                console.log(data.message);
-    //            }
-    //        };
-
-    //        xhr.send();
-    //    });
-    //}
 })();

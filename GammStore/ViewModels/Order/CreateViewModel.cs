@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GammStore.ViewModels.Order
 {
@@ -20,23 +16,23 @@ namespace GammStore.ViewModels.Order
 
         [Required(ErrorMessage = "Не указан номер карты.")]
         [DataType(DataType.CreditCard, ErrorMessage = "Некорректный номер карты.")]
-        [RegularExpression(@"^4[0-9]{12}(?:[0-9]{3})?$", ErrorMessage = "Некорректный номер карты.")]
-        [StringLength(16, ErrorMessage = "Некорректный номер карты.")]
+        [RegularExpression(@"^([0-9]{12,16})$", ErrorMessage = "Некорректный номер карты.")]
+        [StringLength(16, MinimumLength = 12, ErrorMessage = "Некорректный номер карты.")]
         public string CardNumber { get; set; }
 
         [Required(ErrorMessage = "Не указан месяц карты")]
-        [StringLength(2, ErrorMessage = "Некорректный месяц.")]
-        [RegularExpression(@"^([0-9]{2})$", ErrorMessage = "Некорректный месяц.")]
+        [StringLength(2, ErrorMessage = "Некорректный месяц карты.")]
+        [RegularExpression(@"^([0-9]{2})$", ErrorMessage = "Некорректный месяц карты.")]
         public string CardMoth { get; set; }
 
         [Required(ErrorMessage = "Не указан год карты")]
-        [StringLength(2, ErrorMessage = "Некорректный год.")]
-        [RegularExpression(@"^([0-9]{2})$", ErrorMessage = "Некорректный год.")]
+        [StringLength(2, ErrorMessage = "Некорректный год карты.")]
+        [RegularExpression(@"^([0-9]{2})$", ErrorMessage = "Некорректный год карты.")]
         public string CardYear { get; set; }
 
-        [Required(ErrorMessage = "Не указан civ карты")]
-        [StringLength(3, ErrorMessage = "Некорректный CIV.")]
-        [RegularExpression(@"^([0-9]{3})$", ErrorMessage = "Некорректный код.")]
+        [Required(ErrorMessage = "Не указан CIV карты")]
+        [StringLength(3, ErrorMessage = "Некорректный CIV карты.")]
+        [RegularExpression(@"^([0-9]{3})$", ErrorMessage = "Некорректный CIV карты.")]
         [DataType(DataType.Password)]
         public string CardCIV { get; set; }
     }
